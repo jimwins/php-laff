@@ -425,11 +425,15 @@ class Packer
 
         $this->level++;
 
+        $c_area = $this->container_dimensions['length'] * $this->container_dimensions['width'];
+
         // Find biggest (widest surface) box with minimum height
         foreach ($this->boxes as $k => $box) {
             $surface = $box['length'] * $box['width'];
 
-            if ($surface > $biggest_surface) {
+            if ($surface > $c_area) {
+                continue; // Doesn't even fit in our container
+            } elseif ($surface > $biggest_surface) {
                 $biggest_surface   = $surface;
                 $biggest_box_index = $k;
             } elseif ($surface == $biggest_surface) {
@@ -438,6 +442,9 @@ class Packer
                 }
             }
         }
+
+        if ($biggest_box_index === null)
+          return; // Nothing fit!
 
         // Get biggest box as object
         $biggest_box                        = $this->boxes[$biggest_box_index];
@@ -454,7 +461,6 @@ class Packer
             return;
         }
 
-        $c_area = $this->container_dimensions['length'] * $this->container_dimensions['width'];
         $p_area = $biggest_box['length'] * $biggest_box['width'];
 
         // No space left (not even when rotated / length and width swapped)
