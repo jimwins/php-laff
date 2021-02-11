@@ -59,7 +59,7 @@ class Packer
             } else {
                 if (!array_key_exists('length', $container) ||
                     !array_key_exists('width', $container)) {
-                    throw new \InvalidArgumentException("Function _pack only accepts array (length, width, height) as argument for $container");
+                    throw new \InvalidArgumentException("Function _pack only accepts array (length, width, height) as argument for \$container");
                 }
 
                 $this->container_dimensions['length'] = $container['length'];

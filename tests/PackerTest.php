@@ -42,4 +42,11 @@ final class PackerTest extends TestCase
             new Packer($this->test_boxes, $this->perfect_container)
         );
     }
+
+    public function testCreatePackerWithInvalidContainer(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+
+        new Packer($this->test_boxes, [ ]);
+    }
 }
