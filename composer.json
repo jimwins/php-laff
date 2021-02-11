@@ -24,5 +24,8 @@
     "support": {
         "issues": "https://github.com/Cloudstek/php-laff/issues",
         "source": "https://github.com/Cloudstek/php-laff"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9"
     }
 }
