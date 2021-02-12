@@ -424,16 +424,47 @@ class Packer
 
         // Find biggest (widest surface) box with minimum height
         foreach ($this->boxes as $k => $box) {
+            $sides = array_values($box);
+            sort($sides);
+
+            if ($sides[0] > max($this->container_dimensions['length'],
+                                $this->container_dimensions['width']) ||
+                $sides[1] > min($this->container_dimensions['length'],
+                                $this->container_dimensions['width']))
+            {
+                array_push($sides, array_shift($sides));
+                if ($sides[0] > max($this->container_dimensions['length'],
+                                    $this->container_dimensions['width']) ||
+                    $sides[1] > min($this->container_dimensions['length'],
+                                    $this->container_dimensions['width']))
+                {
+                    array_push($sides, array_shift($sides));
+                    if ($sides[0] > max($this->container_dimensions['length'],
+                                        $this->container_dimensions['width']) ||
+                        $sides[1] > min($this->container_dimensions['length'],
+                                        $this->container_dimensions['width']))
+                    {
+                        continue; // Doesn't fit on the surface
+                    }
+                }
+            }
+
+            $box = [
+              'length' => $sides[0],
+              'width' => $sides[0],
+              'height' => $sides[0],
+            ];
+
             $surface = $box['length'] * $box['width'];
 
-            if ($surface > $c_area) {
-                continue; // Doesn't even fit in our container
-            } elseif ($surface > $biggest_surface) {
+            if ($surface > $biggest_surface) {
                 $biggest_surface   = $surface;
                 $biggest_box_index = $k;
+                $this->boxes[$biggest_box_index] = $box;
             } elseif ($surface == $biggest_surface) {
                 if (!isset($biggest_box_index) || (isset($biggest_box_index) && $box['height'] < $this->boxes[$biggest_box_index]['height'])) {
                     $biggest_box_index = $k;
+                    $this->boxes[$biggest_box_index] = $box;
                 }
             }
         }
