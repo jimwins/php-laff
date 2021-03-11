@@ -425,7 +425,7 @@ class Packer
         // Find biggest (widest surface) box with minimum height
         foreach ($this->boxes as $k => $box) {
             $sides = array_values($box);
-            sort($sides);
+            rsort($sides);
 
             if ($sides[0] > max($this->container_dimensions['length'],
                                 $this->container_dimensions['width']) ||
@@ -451,8 +451,8 @@ class Packer
 
             $box = [
               'length' => $sides[0],
-              'width' => $sides[0],
-              'height' => $sides[0],
+              'width' => $sides[1],
+              'height' => $sides[2],
             ];
 
             $surface = $box['length'] * $box['width'];
