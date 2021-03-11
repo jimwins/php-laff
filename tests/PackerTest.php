@@ -24,7 +24,7 @@ final class PackerTest extends TestCase
     ];
 
     public $awkward_container = [
-      'length' => 6, 'width' => 4, 'height' => 24
+      'length' => 6, 'width' => 4, 'height' => 18
     ];
 
     public function testCreatePackerWithNoArguments(): void
